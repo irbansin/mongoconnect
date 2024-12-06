@@ -1,5 +1,6 @@
 package in.anirbansinha.mongoconnect;
 
+import static com.mongodb.client.model.Filters.*;
 import com.mongodb.client.*;
 import org.bson.Document;
 import java.io.BufferedReader;
@@ -20,7 +21,7 @@ public class MongoDBAssignment {
         MongoDBAssignment app = new MongoDBAssignment();
         app.connect();
         app.load();
-
+        app.loadNest();
     }
 
     public MongoDatabase connect() {
@@ -86,6 +87,22 @@ public class MongoDBAssignment {
         System.out.println("Data loaded successfully into MongoDB.");
     }
     
-   
+    /**
+        * Loads customer and orders TPC-H data into a single collection.
+    */
+    public void loadNest() throws Exception {
+        MongoCollection<Document> custOrdersCol = db.getCollection("custorders");
+        custOrdersCol.drop();
+
+        MongoCollection<Document> customerCol = db.getCollection("customer");
+        MongoCollection<Document> ordersCol = db.getCollection("orders");
+
+        for (Document customer : customerCol.find()) {
+            List<Document> orders = ordersCol.find(eq("custkey", customer.getInteger("custkey")))
+                    .into(new ArrayList<>());
+            customer.append("orders", orders);
+            custOrdersCol.insertOne(customer);
+        }
+    }
 
 }
