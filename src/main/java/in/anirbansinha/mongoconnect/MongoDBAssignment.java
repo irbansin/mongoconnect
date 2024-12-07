@@ -22,12 +22,26 @@ public class MongoDBAssignment {
         app.connect();
         app.load();
         app.loadNest();
+        System.out.println("______________________________________\n");
+        System.out.println("Query1\n");
         System.out.println(app.query1(1000));
+        System.out.println("______________________________________\n");
+        System.out.println("Query2\n");
         System.out.println(app.query2(32));
+        System.out.println("______________________________________\n");
+        System.out.println("Query2Nest\n");
         System.out.println(app.query2Nest(32));
+        System.out.println("______________________________________\n");
+        System.out.println("Query3\n");
         System.out.println(app.query3());
+        System.out.println("______________________________________\n");
+        System.out.println("query3Nest\n");
         System.out.println(app.query3Nest());
+        System.out.println("______________________________________\n");
+        System.out.println("query4\n");
         System.out.println(app.query4());
+        System.out.println("______________________________________\n");
+        System.out.println("query4Nest\n");
         System.out.println(app.query4Nest());
     }
 
